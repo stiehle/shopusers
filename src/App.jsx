@@ -21,12 +21,12 @@ const App = () => {
       [] // queries (optional)
     );
 
-    console.log(result);
+    console.log(result, loggedInUser);
   }
 
   return (
     <div>
-      <p>{loggedInUser ? `Logged in as ${loggedInUser.name}` : "Not logged in"}</p>
+      <p>{loggedInUser ? `Logged in as ${loggedInUser.name} ID=${loggedInUser.$id}` : "Not logged in"}</p>
 
       <form>
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
