@@ -2,26 +2,37 @@ import React, { useState } from "react";
 import { client, account, ID } from "./lib/appwrite";
 import { Databases } from "appwrite";
 
-const App = () => {
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+// Import type models for Appwrite
+import { type Models } from "appwrite";
 
-  async function login(email, password) {
+interface data extends Models.Document {
+  name: string;
+  firstname: string;
+  number: number;
+  date: Date;
+}
+
+const App = () => {
+  const [loggedInUser, setLoggedInUser] = useState<Models.User<Models.Preferences> | null>(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+
+  async function login(email: string, password: string) {
     await account.createEmailPasswordSession(email, password);
     setLoggedInUser(await account.get());
   }
 
   async function listData() {
     const databases = new Databases(client);
-    const result = await databases.listDocuments(
+    const response = await databases.listDocuments(
       "6841d9ab001d7232992b", // databaseId
       "6841da090002941f77e4", // collectionId
       [] // queries (optional)
     );
+    const documents = response.documents as data[];
 
-    console.log(result, loggedInUser);
+    console.log(documents, loggedInUser);
   }
 
   return (
