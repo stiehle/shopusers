@@ -12,7 +12,7 @@ module.exports = async function (req, res) {
   // Das Event-Payload enthält Informationen über den neu erstellten Benutzer
   const user = req.payload;
   console.log("Received user payload:", user);
-  const userId = user.$id; // Extrahiere die Benutzer-ID aus dem Payload
+  const userId = users.$id; // Extrahiere die Benutzer-ID aus dem Payload
   console.log("User ID:", userId);
 
   // const userId = userId || req.query.userId; // Fallback auf userId aus der Query, falls nicht im Payload enthalten
