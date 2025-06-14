@@ -24,6 +24,8 @@ const App = () => {
   }
 
   async function listData() {
+    setLoggedInUser(await account.get());
+
     const databases = new Databases(client);
     const response = await databases.listDocuments(
       "6841d9ab001d7232992b", // databaseId
@@ -32,7 +34,7 @@ const App = () => {
     );
     const documents = response.documents as data[];
 
-    console.log(documents, loggedInUser);
+    console.log(documents, loggedInUser, await account.get());
   }
 
   return (
