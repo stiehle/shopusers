@@ -11,7 +11,9 @@ module.exports = async function (req, res) {
 
   // Das Event-Payload enthält Informationen über den neu erstellten Benutzer
   const user = req.payload;
-  const userId = user.$id;
+
+  const userId = userId || req.query.userId; // Fallback auf userId aus der Query, falls nicht im Payload enthalten
+  // const userId = userId;
 
   try {
     // Weise dem Benutzer das Label zu
