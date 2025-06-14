@@ -1,13 +1,13 @@
-import { Client, Users } from "node-appwrite";
+const sdk = require("node-appwrite");
 
-export default async function (req, res) {
-  const client = new Client();
+module.exports = async function (req, res) {
+  const client = new sdk.Client();
   client
-    .setEndpoint("https://cloud.appwrite.io/v1") // Dein Appwrite Endpoint
+    .setEndpoint("https://fra.cloud.appwrite.io/v1") // Dein Appwrite Endpoint
     .setProject(process.env.APPWRITE_PROJECT_ID) // Dein Projekt-ID
     .setKey(process.env.APPWRITE_API_KEY); // Dein API-Schlüssel (Environment Variable)
 
-  const users = new Users(client);
+  const users = new sdk.Users(client);
 
   // Das Event-Payload enthält Informationen über den neu erstellten Benutzer
   const user = req.payload;
@@ -22,4 +22,4 @@ export default async function (req, res) {
     console.error("Fehler beim Hinzufügen des Labels:", error);
     return res.json({ success: false, message: "Failed to add label", error: error.message }, 500);
   }
-}
+};
