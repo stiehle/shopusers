@@ -5,9 +5,19 @@ export default async ({ req, res, log, error }: any) => {
   // You can use the Appwrite SDK to interact with other services
   // For this example, we're using the Users service
   const client = new Client()
-    .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT ?? "")
-    .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID ?? "")
-    .setKey(req.headers["x-appwrite-key"] ?? "");
+    .setEndpoint("https://fra.cloud.appwrite.io/v1")
+    .setProject(
+      process.env.APPWRITE_PROJECT_ID ??
+        (() => {
+          throw new Error("APPWRITE_PROJECT_ID is not defined");
+        })()
+    )
+    .setKey(
+      process.env.APPWRITE_API_KEY ??
+        (() => {
+          throw new Error("APPWRITE_API_KEY is not defined");
+        })()
+    );
   const users = new Users(client);
 
   try {
