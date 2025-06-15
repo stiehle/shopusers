@@ -9,15 +9,30 @@ export default async ({ req, res, log, error }) => {
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
     .setKey(req.headers["x-appwrite-key"] ?? "");
   const users = new Users(client);
-  const userId = req.query.userId || req.payload?.userId;
 
   try {
     const response = await users.list();
     // Log messages and errors to the Appwrite Console
     // These logs won't be seen by your end users
     log(`Total users: ${response.total} ${response.users.map((user) => user.name).join(", ")}`);
-    log("User IDs:", response.users.map((user) => user.$id).join(", "));
-    log("User ID from query or payload:", userId);
+    // log("User IDs:", response.users.map((user) => user.$id).join(", "));
+    log(
+      "User IDs:",
+      response.users.map((user) => {
+        return {
+          id: user.$id,
+          name: user.name,
+          email: user.email,
+          test: user.labels ? user.labels.join(", ") : "No labels",
+          registration: user.registration,
+          status: user.status,
+          prefs: user.prefs ? JSON.stringify(user.prefs) : "No preferences",
+          phone: user.phone ? user.phone.number : "No phone number",
+          phoneVerified: user.phone ? user.phone.verified : "Phone not verified",
+          emailVerified: user.emailVerification ? "Email verified" : "Email not verified",
+        };
+      })
+    );
   } catch (err) {
     error("Could not list users: " + err.message);
   }
