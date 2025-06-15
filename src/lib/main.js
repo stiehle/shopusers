@@ -9,6 +9,7 @@ export default async ({ req, res, log, error }) => {
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
     .setKey(req.headers["x-appwrite-key"] ?? "");
   const users = new Users(client);
+  const userId = req.query.userId || req.payload?.userId;
 
   try {
     const response = await users.list();
@@ -16,6 +17,7 @@ export default async ({ req, res, log, error }) => {
     // These logs won't be seen by your end users
     log(`Total users: ${response.total} ${response.users.map((user) => user.name).join(", ")}`);
     log("User IDs:", response.users.map((user) => user.$id).join(", "));
+    log("User ID from query or payload:", userId);
   } catch (err) {
     error("Could not list users: " + err.message);
   }
