@@ -15,6 +15,7 @@ export default async ({ req, res, log, error }) => {
     // Log messages and errors to the Appwrite Console
     // These logs won't be seen by your end users
     log(`Total users: ${response.total} ${response.users.map((user) => user.name).join(", ")}`);
+    log("User IDs:", response.users.map((user) => user.$id).join(", "));
   } catch (err) {
     error("Could not list users: " + err.message);
   }
