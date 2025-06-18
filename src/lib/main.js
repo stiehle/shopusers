@@ -39,6 +39,7 @@ export default async ({ req, res, log, error }) => {
 
   try {
     const allUsers = await users.list();
+
     allUsers.users.map((user) => {
       // user.labels.push(["buyer", "newUser"]);
       log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
@@ -46,14 +47,10 @@ export default async ({ req, res, log, error }) => {
       if (user.labels === null || user.labels.length === 0) {
         // user.labels = ["buyer", "newUser"];
         user.labels.push(["buyer", "newUser"]); // Ensure at least one label exists
-        users
-          .updateLabels(user.$id, user.labels)
-          .then(() => {
-            log(`Labels updated for user ID: ${user.$id}`);
-          })
-          .catch((err) => {
-            error(`Error updating labels for user ID ${user.$id}: ${err.message}`);
-          });
+        users.userUpdate(user.$id, {
+          labels: user.labels,
+        });
+        log(`Updated User ID: ${user.$id}, New Labels: ${user.labels.join(", ")}`);
       }
       log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
 
