@@ -40,12 +40,14 @@ export default async ({ req, res, log, error }) => {
   try {
     const allUsers = await users.list();
     allUsers.users.map((user) => {
+      user.labels.push(["buyer", "newUser"]);
       log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
-      if (user.labels === null || user.labels.length === 0) {
-        // user.labels = ["buyer", "newUser"];
-        user.labels.push(["buyer", "newUser"]); // Ensure at least one label exists
-      }
-      return user;
+
+      // if (user.labels === null || user.labels.length === 0) {
+      //   // user.labels = ["buyer", "newUser"];
+      //   user.labels.push(["buyer", "newUser"]); // Ensure at least one label exists
+      // }
+      // return user;
     });
 
     return res.json(allUsers);
