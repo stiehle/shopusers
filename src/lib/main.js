@@ -38,16 +38,16 @@ export default async ({ req, res, log, error }) => {
   }
 
   try {
-    const userLabel = await users.updateLabels();
-    userLabel.map((label) => {
-      log(`User ID: ${label.$id}, Labels: ${label.labels.join(", ")}`);
-      if (!label) {
-        userLabel.labels = ["buyer", "newUser"];
+    const allUsers = await users.list();
+    allUsers.map((user) => {
+      log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
+      if (!user.labels) {
+        user.labels = ["buyer", "newUser"];
       }
-      return label;
+      return user;
     });
 
-    return res.json(userLabel);
+    return res.json(allUsers);
     // If the user is not found, an error will be thrown
   } catch (err) {
     error("Could not get user: " + err.message);
