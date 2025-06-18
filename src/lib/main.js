@@ -23,7 +23,7 @@ export default async ({ req, res, log, error }) => {
           id: user.$id,
           name: user.name,
           email: user.email,
-          test: user.labels ? user.labels.join(", ") : "No labels",
+          label: user.labels ? user.labels.join(", ") : "No labels",
           registration: user.registration,
           status: user.status,
           prefs: user.prefs ? JSON.stringify(user.prefs) : "No preferences",
@@ -35,6 +35,22 @@ export default async ({ req, res, log, error }) => {
     );
   } catch (err) {
     error("Could not list users: " + err.message);
+  }
+
+  try {
+    const userLabel = await users.updateLabels();
+    userLabel.map((label) => {
+      log(`User ID: ${label.$id}, Labels: ${label.labels.join(", ")}`);
+      if (!label) {
+        userLabel.labels = ["buyer", "newUser"];
+      }
+      return label;
+    });
+
+    return res.json(userLabel);
+    // If the user is not found, an error will be thrown
+  } catch (err) {
+    error("Could not get user: " + err.message);
   }
 
   // The req object contains the request data
