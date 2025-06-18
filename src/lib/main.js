@@ -41,7 +41,7 @@ export default async ({ req, res, log, error }) => {
     const allUsers = await users.list();
     allUsers.users.map((user) => {
       log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
-      if (!user.labels) {
+      if (user.labels === null || user.labels.length === 0) {
         user.labels = ["buyer", "newUser"];
       }
       return user;
