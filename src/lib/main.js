@@ -42,7 +42,8 @@ export default async ({ req, res, log, error }) => {
     allUsers.users.map((user) => {
       log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
       if (user.labels === null || user.labels.length === 0) {
-        user.labels = ["buyer", "newUser"];
+        // user.labels = ["buyer", "newUser"];
+        user.labels.push(["buyer", "newUser"]); // Ensure at least one label exists
       }
       return user;
     });
