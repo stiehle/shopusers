@@ -13,7 +13,7 @@ module.exports = async ({ req, res, log, error }) => {
   // It receives an object containing `req`, `res`, `log`, and `error`—these represent the request and response objects,
   // as well as logging utilities provided by the platform.
 
-  log("----", req, res, log, error);
+  //  log("----", req, res, log, error);
 
   const client = new Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
