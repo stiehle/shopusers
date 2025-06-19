@@ -1,20 +1,9 @@
-// import { Client, Users } from "node-appwrite";
-const { Client, Users } = require("node-appwrite");
-// const { Client, Databases } = require('node-appwrite');
+import { Client, Users } from "node-appwrite";
 
 // This Appwrite function will be executed every time your function is triggered
-module.exports = async ({ req, res, log, error }) => {
-  // export default async ({ req, res, log, error }) => {
+export default async ({ req, res, log, error }) => {
   // You can use the Appwrite SDK to interact with other services
   // For this example, we're using the Users service
-
-  // The code defines an asynchronous default export function, designed to be used as a serverless function or API endpoint,
-  // likely within an Appwrite Cloud Function environment.
-  // It receives an object containing `req`, `res`, `log`, and `error`—these represent the request and response objects,
-  // as well as logging utilities provided by the platform.
-
-  log("----", req, res, log, error);
-
   const client = new Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
