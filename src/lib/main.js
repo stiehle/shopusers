@@ -46,13 +46,14 @@ export default async ({ req, res, log, error }) => {
 
       if (user.labels === null || user.labels.length === 0) {
         // user.labels = ["buyer", "newUser"];
-        user.labels.push(["buyer", "newUser"]); // Ensure at least one label exists
-        users.userUpdate(user.$id, {
-          labels: user.labels,
-        });
-        log(`Updated User ID: ${user.$id}, New Labels: ${user.labels.join(", ")}`);
+        const newLabels = ["buyer", "newUser"];
+        // user.labels.push(["buyer", "newUser"]); // Ensure at least one label exists
+        const info = users.updateLabels(user.$id, newLabels);
+        log(`Updated User ID: ${user.$id}, New Labels: ${newLabels.join(", ")}`);
+        log(info);
+        // log(`Updated User ID: ${user.$id}, New Labels: ${user.labels.join(", ")}`);
       }
-      log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
+      // log(`User ID: ${user.$id}, Labels: ${user.labels.join(", ")}`);
 
       // return user;
       //  log(user);
