@@ -1,5 +1,6 @@
 // import { Client, Users } from "node-appwrite";
 const { Client, Users } = require("node-appwrite");
+const { account } = require("./appwrite");
 // const { Client, Databases } = require('node-appwrite');
 
 // This Appwrite function will be executed every time your function is triggered
@@ -12,8 +13,6 @@ module.exports = async ({ req, res, log, error }) => {
   // likely within an Appwrite Cloud Function environment.
   // It receives an object containing `req`, `res`, `log`, and `error`—these represent the request and response objects,
   // as well as logging utilities provided by the platform.
-
-  //  log("----", req, res, log, error);
 
   const client = new Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
@@ -73,6 +72,11 @@ module.exports = async ({ req, res, log, error }) => {
   } catch (err) {
     error("Could not get user: " + err.message);
   }
+
+  try {
+    const loggedUser = await account.get();
+    log(`Logged in user: ${loggedUser.name} (${loggedUser.$id})`);
+  } catch (error) {}
 
   // The req object contains the request data
   if (req.path === "/ping") {
