@@ -17,8 +17,9 @@ module.exports = async ({ req, res, log, error }) => {
   const client = new Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-    // .setKey(req.headers["x-appwrite-key"] ?? "");
-    .setKey(process.env.APPWRITE_API_KEY); // Dein API-Schlüssel (Environment Variable)
+    .setKey(req.headers["x-appwrite-key"] ?? "");
+    .setKey(process.env.APPWRITE_TESTKEY); // Dein API-Schlüssel (Environment Variable)
+  // .setKey(process.env.APPWRITE_API_KEY); // Dein API-Schlüssel (Environment Variable)
 
   const users = new Users(client);
 
@@ -77,10 +78,9 @@ module.exports = async ({ req, res, log, error }) => {
 
   try {
     const user = new Users(client);
-    const result = await user.get(req.params.userId);
+
     const result2 = await user.get();
 
-    log("result:", result);
     log("result2:", result2);
 
     // log(`Logged in user: ${result.name} (${result.$id})`);
