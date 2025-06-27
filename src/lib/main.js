@@ -22,6 +22,7 @@ module.exports = async ({ req, res, log, error }) => {
   // .setKey(process.env.APPWRITE_API_KEY); // Dein API-Schlüssel (Environment Variable)
 
   const users = new Users(client);
+  log("Users", users);
 
   try {
     const response = await users.list();
