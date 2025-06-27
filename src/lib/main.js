@@ -17,8 +17,7 @@ module.exports = async ({ req, res, log, error }) => {
   const client = new Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-    .setKey(req.headers["APPWRITE_TESTKEY"] ?? "");
-  // .setKey(req.headers["x-appwrite-key"] ?? "");
+    .setKey(req.headers["x-appwrite-key"] ?? "");
   // .setKey(process.env.APPWRITE_TESTKEY); // Dein API-Schlüssel (Environment Variable)
   // .setKey(process.env.APPWRITE_API_KEY); // Dein API-Schlüssel (Environment Variable)
 
@@ -77,17 +76,17 @@ module.exports = async ({ req, res, log, error }) => {
     error("Could not get user: " + err.message);
   }
 
-  try {
-    const user = new Users(client);
+  // try {
+  //   const user = new Users(client);
 
-    const result2 = await user.get();
+  //   const result2 = await user.get();
 
-    log("result2:", result2);
+  //   log("result2:", result2);
 
-    // log(`Logged in user: ${result.name} (${result.$id})`);
-  } catch (err) {
-    error("Could not get logged user: " + err.message);
-  }
+  //   // log(`Logged in user: ${result.name} (${result.$id})`);
+  // } catch (err) {
+  //   error("Could not get logged user: " + err.message);
+  // }
 
   // The req object contains the request data
   if (req.path === "/ping") {
