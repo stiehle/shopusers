@@ -1,6 +1,6 @@
 // import { Client, Users } from "node-appwrite";
-const { Client, Users } = require("node-appwrite");
-const { account } = require("./appwrite");
+const { Client, Users, Account } = require("node-appwrite");
+
 // const { Client, Databases } = require('node-appwrite');
 
 // This Appwrite function will be executed every time your function is triggered
@@ -74,9 +74,12 @@ module.exports = async ({ req, res, log, error }) => {
   }
 
   try {
+    const account = new Account(client);
     const loggedUser = await account.get();
     log(`Logged in user: ${loggedUser.name} (${loggedUser.$id})`);
-  } catch (error) {}
+  } catch (err) {
+    error("Could not get logged user: " + err.message);
+  }
 
   // The req object contains the request data
   if (req.path === "/ping") {
