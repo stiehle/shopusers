@@ -75,8 +75,18 @@ module.exports = async ({ req, res, log, error }) => {
 
   try {
     const account = new Account(client);
-    const loggedUser = await account.get();
-    log(`Logged in user: ${loggedUser.name} (${loggedUser.$id})`);
+    // Get the logged-in user using the Account service
+    // This will throw an error if the user is not logged in
+    // The Account service is used to manage the currently authenticated user
+    // It provides methods to retrieve user information, update user details, and manage user sessions.
+    // The Account service is typically used in scenarios where you need to access the currently authenticated user's
+    // information, such as their ID, email, name, and other profile details.
+    // The Account service is often used in conjunction with authentication services to manage user sessions and profiles
+    // in a secure manner.
+    const result = await account.get();
+    log("result:", result);
+
+    // log(`Logged in user: ${result.name} (${result.$id})`);
   } catch (err) {
     error("Could not get logged user: " + err.message);
   }
