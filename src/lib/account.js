@@ -1,4 +1,4 @@
-// import { Client, Users } from "node-appwrite";
+import { Client, Users, Account } from "node-appwrite";
 
 const sdk = require("node-appwrite");
 
@@ -21,8 +21,12 @@ module.exports = async ({ req, res, log, error }) => {
     .setKey(req.headers["x-appwrite-key"] ?? "")
     .setSession(""); // The user session to authenticate with
 
-  const account = new sdk.Account(client);
+  const users = new Users(client);
+  log("Users", users);
 
-  const result = await account.get();
-  log("Account Info:", result);
+  const account = new sdk.Account(client);
+  const result = await account.createAnonymousSession();
+
+  const result2 = await account.get();
+  log("Account,  Info:", result, result2);
 };
