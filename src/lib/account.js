@@ -23,6 +23,8 @@ module.exports = async ({ req, res, log, error }) => {
   log("Account", account);
   const sessions = await account.getSession("current");
   log("Sessions:", sessions);
+  const user = (sessions.userId = sessions.userId || "No user ID found"); // Ensure userId is defined
+  log("User ID:", user);
   // const result = await account.createAnonymousSession();
   // log("Anonymous Session Created:", result);
 
