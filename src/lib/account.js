@@ -22,7 +22,7 @@ module.exports = async ({ req, res, log, error }) => {
   const account = new sdk.Account(client);
 
   const result = await account.create(
-    "685ec84900104ff50d19", // userId
+    ID.unique(), // userId
     "hallo@example.com", // email
     "testtest123", // password
     "Hallo Hallo" // name (optional)
