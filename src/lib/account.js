@@ -16,15 +16,18 @@ module.exports = async ({ req, res, log, error }) => {
   const client = new sdk.Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-    .setKey(req.headers["x-appwrite-key"] ?? "")
+    // .setKey(req.headers["x-appwrite-key"] ?? "")
     .setSession(""); // The user session to authenticate with
 
   const account = new sdk.Account(client);
   log("Account", account);
-  const sessions = await account.getSession("current");
-  log("Sessions:", sessions);
-  const user = (sessions.userId = sessions.userId || "No user ID found"); // Ensure userId is defined
-  log("User ID:", user);
+  const result = await account.listSessions(); // List all sessions for the current user
+  log("Sessions:", result);
+
+  // const sessions = await account.getSession("current");
+  // log("Sessions:", sessions);
+  // const user = (sessions.userId = sessions.userId || "No user ID found"); // Ensure userId is defined
+  // log("User ID:", user);
   // const result = await account.createAnonymousSession();
   // log("Anonymous Session Created:", result);
 
