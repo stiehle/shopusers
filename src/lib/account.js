@@ -28,8 +28,7 @@ module.exports = async ({ req, res, log, error }) => {
     "Hallo Hallo" // name (optional))
   );
 
-  const user = await account.get();
-  log("User ID:, User Name:", user.$id, user.name); // Log the user ID for reference
+  log("User ID:, User Name:", result.$id, result.name); // Log the user ID for reference
 
   log("User Created:", result);
   return result;
