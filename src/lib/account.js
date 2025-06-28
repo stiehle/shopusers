@@ -21,7 +21,7 @@ module.exports = async ({ req, res, log, error }) => {
 
   const account = new sdk.Account(client);
   log("Account", account);
-  const sessions = await account.listSessions();
+  const sessions = await account.getSession("current");
   log("Sessions:", sessions);
   // const result = await account.createAnonymousSession();
   // log("Anonymous Session Created:", result);
