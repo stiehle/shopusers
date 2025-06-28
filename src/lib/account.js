@@ -20,26 +20,13 @@ module.exports = async ({ req, res, log, error }) => {
     .setSession(""); // The user session to authenticate with
 
   const account = new sdk.Account(client);
-  log("Account", account);
-  const result = await account.listSessions(); // List all sessions for the current user
-  log("Sessions:", result);
 
-  // const sessions = await account.getSession("current");
-  // log("Sessions:", sessions);
-  // const user = (sessions.userId = sessions.userId || "No user ID found"); // Ensure userId is defined
-  // log("User ID:", user);
-  // const result = await account.createAnonymousSession();
-  // log("Anonymous Session Created:", result);
+  const result = await account.create(
+    "685ec84900104ff50d19", // userId
+    "hallo@example.com", // email
+    "testtest123", // password
+    "Hallo Hallo" // name (optional)
+  );
 
-  // try {
-  //   const result = await account.createAnonymousSession();
-  //   const user = await account.get(); // Get the current user information
-
-  //   log("User Info:", user);
-  //   log("Anonymous Session Created:", result);
-
-  //   // Log messages and errors to the Appwrite Console
-  // } catch (err) {
-  //   error("Could not list users: " + err.message);
-  // }
+  log("User Created:", result);
 };
