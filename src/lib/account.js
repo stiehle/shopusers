@@ -18,7 +18,7 @@ module.exports = async ({ req, res, log, error }) => {
   const client = new sdk.Client()
     .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT)
     .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-
+    .setKey(req.headers["x-appwrite-key"] ?? "")
     .setSession(""); // The user session to authenticate with
 
   const account = new sdk.Account(client);
