@@ -1,5 +1,3 @@
-import { Client, Users, Account } from "node-appwrite";
-
 const sdk = require("node-appwrite");
 
 // const { Client, Databases } = require('node-appwrite');
