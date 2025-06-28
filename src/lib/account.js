@@ -1,5 +1,3 @@
-import { ID } from "node-appwrite";
-
 const sdk = require("node-appwrite");
 
 // const { Client, Databases } = require('node-appwrite');
@@ -23,8 +21,11 @@ module.exports = async ({ req, res, log, error }) => {
 
   const account = new sdk.Account(client);
 
+  const id = await account.create(sdk.ID.unique()); // Use a unique ID for the user
+  log("User ID:", id);
+
   const result = await account.create(
-    ID.unique(), // userId
+    "2352355252536456", // userId
     "hallo@example.com", // email
     "testtest123", // password
     "Hallo Hallo" // name (optional)
