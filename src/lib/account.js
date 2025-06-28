@@ -21,12 +21,16 @@ module.exports = async ({ req, res, log, error }) => {
     .setKey(req.headers["x-appwrite-key"] ?? "")
     .setSession(""); // The user session to authenticate with
 
-  const users = new Users(client);
-  log("Users", users);
+  try {
+    const account = new sdk.Account(client);
+    const result = await account.createAnonymousSession();
+    const user = await account.get(); // Get the current user information
 
-  const account = new sdk.Account(client);
-  const result = await account.createAnonymousSession();
+    log("User Info:", user);
+    log("Anonymous Session Created:", result);
 
-  const result2 = await account.get();
-  log("Account,  Info:", result, result2);
+    // Log messages and errors to the Appwrite Console
+  } catch (err) {
+    error("Could not list users: " + err.message);
+  }
 };
