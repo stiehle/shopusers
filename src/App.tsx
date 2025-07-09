@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { client, account, ID } from "./lib/appwrite";
 import { Databases } from "appwrite";
+import "./App.css";
 
 // Import type models for Appwrite
 import { type Models } from "appwrite";
@@ -9,7 +10,13 @@ interface data extends Models.Document {
   name: string;
   firstname: string;
   number: number;
-  date: Date;
+  birthday: Date;
+  street?: string;
+  streetnumber?: string;
+  city?: string;
+  postalcode?: string;
+  phonenumber?: string;
+  userid: string;
 }
 
 const App = () => {
@@ -34,7 +41,54 @@ const App = () => {
     );
     const documents = response.documents as data[];
 
-    console.log(documents, loggedInUser, await account.get());
+    console.log(documents, loggedInUser);
+  }
+
+  async function createUserDocument() {
+    if (!loggedInUser) return;
+
+    const databases = new Databases(client);
+    await databases.createDocument(
+      "6841d9ab001d7232992b", // databaseId
+      "6841da090002941f77e4", // collectionId
+      ID.unique(), // documentId
+      {
+        userid: `${loggedInUser.$id}`,
+        name: `${loggedInUser.name}`,
+        firstname: "Yes",
+        birthday: new Date(),
+        number: Math.floor(Math.random() * 1000),
+        street: "Teststreet",
+        streetnumber: "12-1",
+        city: "Allmendingen",
+        postalcode: "89604",
+        phonenumber: "1234567890",
+      } as data // document data
+    );
+  }
+
+  //not implementet in Appwrite yet
+  async function upsertUserDocument() {
+    if (!loggedInUser) return;
+
+    const databases = new Databases(client);
+    await databases.upsertDocument(
+      "6841d9ab001d7232992b", // databaseId
+      "6841da090002941f77e4", // collectionId
+      ID.unique(), // documentId
+      {
+        userid: `${loggedInUser.$id}`,
+        name: `${loggedInUser.name}`,
+        firstname: "Upsert Yes",
+        birthday: new Date(),
+        number: Math.floor(Math.random() * 1000),
+        street: "Teststreet",
+        streetnumber: "12-1",
+        city: "Allmendingen",
+        postalcode: "89604",
+        phonenumber: "1234567890",
+      } as data // document data
+    );
   }
 
   return (
@@ -64,6 +118,21 @@ const App = () => {
             await listData();
           }}>
           Show Data
+        </button>
+        <button
+          type="button"
+          onClick={async () => {
+            await createUserDocument();
+          }}>
+          create Document
+        </button>
+        <button
+          type="button"
+          onClick={async () => {
+            // await createUserDocument();
+            await upsertUserDocument();
+          }}>
+          <i>upsert Document</i>
         </button>
 
         <button
