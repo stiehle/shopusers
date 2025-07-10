@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { client, account, ID } from "./lib/appwrite";
-import { Databases } from "appwrite";
+import { Databases, Permission, Role } from "appwrite";
 import "./App.css";
 
 // Import type models for Appwrite
@@ -67,7 +67,6 @@ const App = () => {
     );
   }
 
-  //not implementet in Appwrite yet
   async function upsertUserDocument() {
     if (!loggedInUser) return;
 
@@ -75,19 +74,25 @@ const App = () => {
     await databases.upsertDocument(
       "6841d9ab001d7232992b", // databaseId
       "6841da090002941f77e4", // collectionId
-      ID.unique(), // documentId
+      "686fffbf001f2ba89352", // documentId (use a fixed ID for upsert)
+      // ID.unique(), // documentId
       {
         userid: `${loggedInUser.$id}`,
         name: `${loggedInUser.name}`,
         firstname: "Upsert Yes",
         birthday: new Date(),
         number: Math.floor(Math.random() * 1000),
-        street: "Teststreet",
+        street: "XTPowerstreet",
         streetnumber: "12-1",
         city: "Allmendingen",
         postalcode: "89604",
-        phonenumber: "1234567890",
-      } as data // document data
+        phonenumber: "00001",
+      } as data, // document data
+      [
+        Permission.read(Role.user(`${loggedInUser.$id}`)), // Only this user can read
+        Permission.update(Role.user(`${loggedInUser.$id}`)), // Only this user can update
+        Permission.delete(Role.user(`${loggedInUser.$id}`)), // Only this user can delete
+      ]
     );
   }
 
